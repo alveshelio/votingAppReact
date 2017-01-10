@@ -9,6 +9,13 @@ import Items from '../../api/Items';
 
 class App extends Component {
   render() {
+
+    if (!this.props.ready) {
+      return <div className='loading'>
+        <h2>Loading...</h2>
+      </div>
+    }
+
     return (
       <div>
         <Header />
@@ -22,7 +29,9 @@ class App extends Component {
 }
 
 export default createContainer(() => {
+  let itemsSub = Meteor.subscribe('allItems');
   return {
+    ready: itemsSub.ready(),
     items: Items.find({}).fetch()
   }
 }, App);

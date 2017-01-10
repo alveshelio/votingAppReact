@@ -1,6 +1,5 @@
+import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
-
-import Items from '../../../api/Items';
 
 export default class Form extends Component {
   addItems(e) {
@@ -10,20 +9,14 @@ export default class Form extends Component {
     const itemTwo = this.refs.itemTwo.value.trim();
 
     if (itemOne !== '' && itemTwo !== '') {
-      Items.insert({
-        itemOne: {
-          text: itemOne,
-          value: 0
-        },
-        itemTwo: {
-          text: itemTwo,
-          value: 0
+      Meteor.call('insertNewItem', itemOne, itemTwo, (err, res) => {
+        if (!err) {
+          this.refs.itemOne.value = '';
+          this.refs.itemTwo.value = '';
+        } else {
+          console.log(err);
         }
       });
-
-      this.refs.itemOne.value = '';
-      this.refs.itemTwo.value = '';
-
     }
   }
 

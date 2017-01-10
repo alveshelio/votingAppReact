@@ -445,6 +445,18 @@ button[type='submit'] {
     margin-top: 10px;
 }
 
+.loading {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+.loading h2 {
+    position: absolute;
+    left: calc(50vw - 50px);
+    top: 50vh;
+    font-size: 40px;
+}
+
 .item {
     margin-top: 20px;
     background: #FFF;
