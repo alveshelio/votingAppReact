@@ -1,22 +1,36 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+import SimpleSchema from 'simpl-schema';
 
 const Items = new Mongo.Collection('items');
+
+const ItemSchema = new SimpleSchema({
+  text: String,
+  value: SimpleSchema.Integer
+});
+
+const ItemsSchema = new SimpleSchema({
+  itemOne: ItemSchema,
+  itemTwo: ItemSchema,
+  lastUpdated: {
+    type: Date,
+    optional: true
+  }
+});
+
+Items.attachSchema(ItemsSchema);
 
 if (Meteor.isServer) {
 
   Meteor.publish('allItems', function() {
     return Items.find({}, {
-      limit: 10,
+      limit: 20,
       sort: { lastUpdated: 1 }
     });
   });
 
   Meteor.methods({
     insertNewItem(itemOne, itemTwo) {
-      check(itemOne, String);
-      check(itemTwo, String);
 
       Items.insert({
         itemOne: {
@@ -28,6 +42,8 @@ if (Meteor.isServer) {
           value: 0
         }
       });
+      Roles.addUsersToRoles(Meteor.userId(), 'submitter');
+
     },
     voteOnItem(itemId, position) {
       let lastUpdated = new Date();
@@ -52,6 +68,7 @@ if (Meteor.isServer) {
             }
           });
         }
+        Roles.addUsersToRoles(Meteor.userId(), 'voter');
       }
     }
   });

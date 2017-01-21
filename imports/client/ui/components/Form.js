@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
+import { autobind } from 'core-decorators';
+
+@autobind
 
 export default class Form extends Component {
   addItems(e) {
@@ -22,7 +25,7 @@ export default class Form extends Component {
 
   render() {
     return (
-      <form className='new-items' onSubmit={this.addItems.bind(this)}>
+      <form className='new-items' onSubmit={this.addItems}>
         <input type='text' ref='itemOne' />
         <input type='text' ref='itemTwo' />
         <button>Add Items</button>

@@ -21,7 +21,13 @@ shell-server@0.2.1            # Server-side component of the `meteor shell` comm
 react-meteor-data
 accounts-ui
 accounts-password
+accounts-facebook
+accounts-twitter
+accounts-google
 
 check
 
 session
+aldeed:collection2-core@2.0.0
+
+alanning:roles
